@@ -2,43 +2,53 @@ import React from 'react'
 import type { NextPage } from 'next'
 import { useState } from 'react'
 
-interface Book {
-  books: {
+interface user {
+  users: {
     id: string
-    title: string
-    author: string
+    fullName: string
+    email: string
+    password: string
     category: string
-    code: string
+    parentId: string
   }[]
 }
 
 interface FormData {
-  title: string
-  author: string
-  category: string
-  code: string
   id: string
+  fullName: string
+  email: string
+  password: string
+  category: string
+  parentId: string
 }
 
-const Home: NextPage = () => {
+const signUp: NextPage = () => {
   const [form, setForm] = useState<FormData>({
-    title: '',
-    author: '',
+    fullName: '',
+    email: '',
+    password: '',
     category: '',
-    code: '',
+    parentId: '',
     id: '',
   })
 
   async function create(data: FormData) {
     try {
-      fetch('http://localhost:3000/api/create', {
+      fetch('http://localhost:3000/api/signup', {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'POST',
       }).then(() => {
-        setForm({ title: '', author: '', category: '', code: '', id: '' })
+        setForm({
+          fullName: '',
+          email: '',
+          password: '',
+          category: '',
+          parentId: '',
+          id: '',
+        })
       })
     } catch (error) {
       console.log(error)
@@ -64,16 +74,23 @@ const Home: NextPage = () => {
       >
         <input
           type="text"
-          placeholder="Title"
-          value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          placeholder="fullName"
+          value={form.fullName}
+          onChange={(e) => setForm({ ...form, fullName: e.target.value })}
           className="rounded border-2 border-gray-600 p-1"
         />
         <input
-          type="text"
-          placeholder="Author"
-          value={form.author}
-          onChange={(e) => setForm({ ...form, author: e.target.value })}
+          type="email"
+          placeholder="email"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          className="rounded border-2 border-gray-600 p-1"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
           className="rounded border-2 border-gray-600 p-1"
         />
         <input
@@ -85,9 +102,9 @@ const Home: NextPage = () => {
         />
         <input
           type="text"
-          placeholder="Code"
-          value={form.code}
-          onChange={(e) => setForm({ ...form, code: e.target.value })}
+          placeholder="parentId"
+          value={form.parentId}
+          onChange={(e) => setForm({ ...form, parentId: e.target.value })}
           className="rounded border-2 border-gray-600 p-1"
         />
 
@@ -98,4 +115,4 @@ const Home: NextPage = () => {
     </div>
   )
 }
-export default Home
+export default signUp
